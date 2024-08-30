@@ -94,3 +94,17 @@ form .btn-create {
   margin: auto;
   padding: 7px;
 }
+
+/* button:disabled{cursos: not-alowed, background: #555b69} */
+
+.success .error {
+  text-align: center;
+}
+
+.success {
+  color: darkgreen;
+}
+
+.error {
+  color: crimson;
+}
