@@ -11,7 +11,7 @@ Após clonar o projeto, altere o _diretório ativo_ para **frontend** com o coma
 cd frontend #cd stands for change directory
 ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > Para execução dos próximos passos é importante que tenha o **Node.js** instalado em sua máquina, caso ainda não o tenha instalado visite a [página oficial da ferramenta](https://nodejs.org/en/download/package-manager/current) e siga os passos para a instalação.
 
 ### Baixando as dependências do projeto:
