@@ -3,7 +3,7 @@ import './style.css'
 
 const Button = () => {
     return (
-        <button class="btn-outlined">Adicionar</button>
+        <button className="btn-outlined">Adicionar</button>
     )
 }
 
