@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../styles/style.css">
+  <script defer src="../scripts/create-form.js"></script>
+</head>
+<body>
+  <section class="form-section">  
+    <h2>Cadastro de Produtos</h2>
+
+    <div class="form-wrapper">
+      <form action="" method="POST" data-form>
+        <div class="input-block">
+          <label for="id">Id</label>
+          <input type="text" id="id" name="id">
+        </div>
+
+        <div class="input-block">
+          <label for="item">Produto</label>
+          <input type="text" id="item" name="item" required>
+        </div>
+
+        <div class="input-block">
+          <label for="category">Categoria</label>
+          <input type="text" id="category" name="category" required>
+        </div>
+
+        <div class="input-block">
+          <label for="price">Preço</label>
+          <input type="text" id="price" name="price" required>
+        </div>
+
+        <div class="input-block">
+          <label for="quantity">Quantidade</label>
+          <input type="text" id="quantity" name="quantity" required>
+        </div>
+
+        <div class="input-block">
+          <label for="expire_date">Data de Vencimento</label>
+          <input type="text" id="expire_date" name="expire_date" required>
+        </div>
+
+        <div class="input-block">
+          <label for="stock">Estoque</label>
+          <input type="text" id="stock" name="stock" required>
+        </div>
+
+        <button type="submit" class="btn-create" data-button>Cadastrar</button>
+      </form>
+    </div>
+  </section>
+  <!-- <script src=""></script> -->
+</body>
+</html>
