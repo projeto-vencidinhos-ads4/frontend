@@ -1,12 +1,20 @@
-import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 
-const Routes = () => {
-    const client = useQueryClient()
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Product from '../pages/client/product/product'
+import Category from '../pages/client/category/category'
+
+
+const RouterConfig = () => {
 
     return (
-        <div>Routes</div>
+        <BrowserRouter basename='/app'>
+            <Routes >
+                <Route path="/client/product" element={<Product />} />
+                <Route path="/client/category" element={<Category />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
 
-export default Routes
+export default RouterConfig
