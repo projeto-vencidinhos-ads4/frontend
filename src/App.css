@@ -1,0 +1,97 @@
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  /* Primary Colors */
+
+  /* --Very-dark-blue: hsl(233, 47%, 7%);
+      --Dark-desaturated-blue: hsl(244, 38%, 16%);
+      --Soft-violet: hsl(277, 64%, 61%);
+      --Soft-transparent-violet: hsla(277, 98%, 32%, 0.572); */
+
+  /* Neutral Colors */
+  --black: hsla(0, 0%, 0%, 1);
+  --white: hsl(0, 0%, 100%);
+  --gray: hsl(255, 9%, 56%);
+  --light-gray: hsla(0, 0%, 98%, 0.955);
+  /*form background*/
+  /* --light-gray: hsl(252, 7%, 86%);  */
+  --dark-gray: hsla(0, 1%, 13%, 0.955);
+
+  --blue: hsl(244, 39.2%, 60%);
+  --dark-blue: hsl(244, 28%, 29%);
+
+  /*Fonts*/
+  --title-font: Verdana, Geneva, Tahoma, sans-serif;
+  --paragraph-font: "Roboto", sans-serif;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  font-family: var(--title-font);
+  font-size: 32px;
+  margin: 20px 0;
+  color: var(--dark-gray);
+}
+
+form {
+  width: 100%;
+  margin: 20px 0;
+  background-color: var(--light-gray);
+  padding: 30px 50px;
+  border-radius: 10px;
+}
+
+form .input-block {
+  margin-bottom: 20px;
+}
+
+form .input-block label {
+  font-size: 14px;
+  color: var(--dark-gray);
+}
+
+form .input-block input {
+  width: 100%;
+  display: block;
+  margin-top: 8px;
+  padding: 7px;
+  font-size: 16px;
+  color: var(--white);
+  border-radius: 6px;
+  border: 1px solid var(--gray);
+  outline-color: var(--dark-blue);
+}
+
+form .btn-create {
+  display: block;
+  min-width: 120px;
+  border: none;
+  background-color: hsl(244, 28%, 29%);
+  color: var(--white);
+  border-radius: 15px;
+  margin: auto;
+  padding: 7px;
+}
+
+/* button:disabled{cursos: not-alowed, background: #555b69} */
+
+.success .error {
+  text-align: center;
+}
+
+.success {
+  color: darkgreen;
+}
+
+.error {
+  color: crimson;
+}
