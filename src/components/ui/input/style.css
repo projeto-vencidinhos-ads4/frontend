@@ -1,16 +1,11 @@
-.inputDefault {
+.input-default {
     width: 100%;
     padding: 12px 16px;
     border-radius: 6px;
     font-family: inherit;
     border: 1px solid #ccc;
-  }
-  
-  .inputDefault::placeholder {
+}
+
+.input-default::placeholder {
     opacity: 0.5;
-  }
-  
-  .inputDefault:focus {
-    outline: none;
-    border-color: #1778f2;
-  }
+}
