@@ -4,6 +4,8 @@
     border-radius: 6px;
     font-family: inherit;
     border: 1px solid #ccc;
+    outline: none;
+    line-height: 20px;
 }
 
 .input-default::placeholder {

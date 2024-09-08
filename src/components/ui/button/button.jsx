@@ -1,9 +1,9 @@
 import React from 'react'
 import './style.css'
 
-const Button = () => {
+const Button = ({ children }) => {
     return (
-        <button className="btn-filled">Adicionar</button>
+        <button className="btn-filled">{children}</button>
     )
 }
 
