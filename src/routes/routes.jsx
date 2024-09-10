@@ -11,12 +11,12 @@ import Loader from '../components/ui/loader/loader'
 const RouterConfig = () => {
 
     return (
-        <BrowserRouter basename='/app'>
+        <BrowserRouter>
             <Routes >
                 <Route path="/client/product" element={<Product />} />
                 <Route path="/client/category" element={<Category />} />
-                <Route path="/test" element={<div><Input/><Button/><ButtonOutlined/></div>} />
-                <Route path="/teste/isaque" element={<div><Loader classname="loader-default" ></Loader><Loader classname="loader-small" ></Loader><Loader classname="loader-big" ></Loader></div>}/>
+                <Route path="/test" element={<div><Input /><Button /><ButtonOutlined /></div>} />
+                <Route path="/teste/isaque" element={<div><Loader classname="loader-default" ></Loader><Loader classname="loader-small" ></Loader><Loader classname="loader-big" ></Loader></div>} />
             </Routes>
         </BrowserRouter>
     )
