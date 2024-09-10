@@ -1,8 +1,8 @@
 import "./style.css"
 
-const Input = ({ className = "input-default ", value, placeholder }) => {
+const Input = ({ className = "input-default ", value, placeholder, id, name }) => {
     return (
-        <input className={className} defaultValue={value} placeholder={placeholder ?? ""} name="category" id="category" type="text" />
+        <input className={className} defaultValue={value} placeholder={placeholder ?? ""} name={name} id={id} type="text" />
 
     )
 }

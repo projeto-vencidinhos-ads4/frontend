@@ -1,37 +1,38 @@
 .header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
 }
-  .header-bar {
+.header-bar {
     width: 90%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding: 15px;
-  }
+    height: 64px;
+}
 
-  .header-right {
+.header-right {
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
+}
 
-  .profile {
+.profile {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
+}
 
-  .profile-pic {
+.profile-pic {
     width: 32px;
     height: 32px;
     border-radius: 10%;
-  }
+}
 
-  .profile-name {
+.profile-name {
     font-size: 0.9rem;
     color: #212121;
-  }
+}

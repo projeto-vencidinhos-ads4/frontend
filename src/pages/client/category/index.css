@@ -1,14 +1,16 @@
 .category-hero {
     background-color: var(--light-gray);
     display: flex;
+    margin-top: 64px;
+    position: absolute;
     width: 100%;
-    text-align: center;
 
     .side-bar {
         display: flex;
         position: fixed;
         background-color: #4f46e5;
         gap: 8px;
+        z-index: 1;
         flex-direction: column;
         max-width: 150px;
         height: 100vh;

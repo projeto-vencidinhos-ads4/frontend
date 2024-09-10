@@ -6,6 +6,7 @@ import Input from "../../../components/ui/input/input";
 import "./index.css";
 import { listCategories } from "../../../utils/categories-mock-data";
 import { client } from "../../../utils/client-mock-data";
+import ClientLayout from "../../layouts/_clientLayout";
 
 const Category = () => {
     const [categories, setCategories] = useState([]);
@@ -58,12 +59,7 @@ const Category = () => {
     }
 
     return (
-        <div className="category-hero">
-            <aside className="side-bar">
-                <h1>Category</h1>
-                <h1>Produto</h1>
-                <h1>Stock</h1>
-            </aside>
+        <ClientLayout>
             <section className="content">
                 <div className="container-category">
                     <h1>Categorias</h1>
@@ -75,6 +71,8 @@ const Category = () => {
                             type="text"
                             className="input-default"
                             placeholder="Digite uma categoria"
+                            name="category"
+                            id="category"
                         />
                         <Button type="submit">Salvar</Button>
                     </form>
@@ -108,7 +106,7 @@ const Category = () => {
                     </table>
                 </div>
             </section>
-        </div>
+        </ClientLayout>
     );
 };
 
