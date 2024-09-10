@@ -11,8 +11,18 @@
     font-weight: 500;
     width: 100%;
     border-radius: 0.5rem;
-  }
-  
-  .btn-outlined:hover {
+}
+
+.error {
+    background-color: rgba(231, 34, 34, 0.836);
+    color: #ffff;
+    border: red;
+}
+
+.btn-outlined:hover {
     background-color: #21212113;
-  }
+}
+
+.error:hover {
+    background-color: rgba(204, 69, 69, 0.993);
+}

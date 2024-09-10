@@ -1,9 +1,8 @@
 import "./style.css"
 
-const Input = (props) => {
-    console.log(props)
+const Input = ({ className = "input-default ", value, placeholder }) => {
     return (
-        <input className={props.className} defaultValue={props.value} placeholder={props.placeholder ?? "NULO"} name="category" id="category" type="text" />
+        <input className={className} defaultValue={value} placeholder={placeholder ?? ""} name="category" id="category" type="text" />
 
     )
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import './style.css'
 
-const Button = () => {
+const ButtonOutlined = ({ children, color = "" }) => {
     return (
-        <button className="btn-outlined">Adicionar</button>
+        <button className={`btn-outlined ${color} `}>{children}</button>
     )
 }
 
-export default Button
+export default ButtonOutlined
