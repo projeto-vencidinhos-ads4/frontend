@@ -4,12 +4,16 @@ import Button from "../../../components/ui/button/button";
 import Input from "../../../components/ui/input/input";
 
 import "./index.css";
+import { listCategories } from "../../../utils/categories-mock-data";
+import { client } from "../../../utils/client-mock-data";
 
 const Category = () => {
     const [categories, setCategories] = useState([]);
 
+    const { id } = client
+
     function fetchCategories() {
-        fetch("http://localhost:8085/categories/1")
+        fetch(`http://localhost:8085/categories/${id}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -17,6 +21,7 @@ const Category = () => {
             })
             .catch((error) => {
                 console.error("Error:", error);
+                setCategories(listCategories)
             });
     }
 
@@ -30,7 +35,8 @@ const Category = () => {
         console.log(e.target);
         let data = new FormData(e.target);
 
-        console.log("submit");
+        if (!data.get("category")) return
+
         fetch("http://localhost:8085/categories/create", {
             method: "POST",
             headers: {
@@ -38,7 +44,7 @@ const Category = () => {
             },
             body: JSON.stringify({
                 name: data.get("category"),
-                clientId: 1,
+                clientId: id,
             }),
         })
             .then((response) => response.json())
