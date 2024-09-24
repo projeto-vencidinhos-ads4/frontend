@@ -30,6 +30,27 @@ const Category = () => {
         fetchCategories();
     }, []);
 
+    function deleteCategory(categoryId) {
+        fetch(`http://localhost:8085/categories/${categoryId}`, {
+            method: "DELETE",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Erro ao deletar categoria");
+                }
+
+                console.log("Categoria deletada");
+                fetchCategories(); //atualiza list de categorias após a exclusão 
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+            });
+    }
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
 
     function submitCategory(e) {
         e.preventDefault();
@@ -95,7 +116,10 @@ const Category = () => {
                                     <td>
                                         <div className="td-group">
                                             <Button>Editar</Button>
-                                            <ButtonOutlined color="error">
+                                            <ButtonOutlined 
+                                                color="error" 
+                                                onClick={() => deleteCategory(category.id)}
+                                            >
                                                 Deletar
                                             </ButtonOutlined>
                                         </div>
