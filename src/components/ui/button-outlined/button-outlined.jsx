@@ -1,9 +1,9 @@
 import React from 'react'
 import './style.css'
 
-const ButtonOutlined = ({ children, color = "" }) => {
+const ButtonOutlined = ({ children, color = "", onClick}) => {
     return (
-        <button className={`btn-outlined ${color} `}>{children}</button>
+        <button className={`btn-outlined ${color} `} onClick={onClick}>{children}</button>
     )
 }
 
