@@ -37,6 +37,31 @@ const Product = () => {
             });
     }
 
+    // Function for handling the deletion of Products
+    function deleteProduct(productId) {
+        console.log(`Attempting to delete Prouct with ID: ${productId}`);
+        
+        fetch(`http://localhost:8085/products/${productId}/delete`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((response) => {
+            console.log("Response Status:", response.status);
+            if (response.ok) {
+                console.log(`The Product with id: ${productId} was deleted successfully!`);
+                fetchProducts();
+            } else {
+                console.error("Failed to delete Product!");
+            }
+        })
+        .catch((error) => {
+            console.error("Network Error:", error);
+        });
+    }
+    
+
     useEffect(() => {
         fetchCategories();
     }, []);
@@ -122,7 +147,13 @@ const Product = () => {
                                     <td>{product.categoryName}</td>
                                     <td style={{ display: "flex", gap: "8px" }}>
                                         <Button>Editar</Button>
-                                        <ButtonOutlined color="error">Excluir</ButtonOutlined>
+                                        <ButtonOutlined 
+                                            type="button"
+                                            color="error"
+                                            onClick={() => deleteProduct(product.id)}
+                                        >
+                                            Deletar
+                                        </ButtonOutlined>
                                     </td>
                                 </tr>
                             )) : <tr><td colSpan={3}>Nenhum produto cadastrado</td></tr>}
