@@ -58,8 +58,9 @@ const Category = () => {
             });
     }
 
+    // Function for handling the deletion of Categories
     function deleteCategory(categoryId) {
-        console.log(`Attempting to delete category with ID: ${categoryId}`);
+        console.log(`Attempting to delete Category with ID: ${categoryId}`);
         
         fetch(`http://localhost:8085/categories/delete/${categoryId}`, {
             method: "DELETE",
@@ -70,13 +71,13 @@ const Category = () => {
         .then((response) => {
             console.log("Response Status:", response.status);
             if (response.ok) {
-                console.log("Category was deleted successfully!");
+                console.log(`The Category with id: ${categoryId} deleted successfully!`);
                 fetchCategories();
             } else {
-                console.error("Failed to delete category!");
-                alert(`Failed to delete category!\n\n` +
-                    `It seems a product is dependent on this category.\n` +
-                    `To delete the category with id: ${categoryId}, the dependent product needs to be deleted fisrt.`)
+                console.error("Failed to delete Category!");
+                alert(`Failed to delete Category!\n\n` +
+                    `It seems a Product is dependent on this Category.\n` +
+                    `To delete the Category with id: ${categoryId}, the dependent Product(s) needs to be deleted first.`)
             }
         })
         .catch((error) => {
