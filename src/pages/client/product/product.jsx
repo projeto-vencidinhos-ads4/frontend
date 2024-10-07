@@ -94,7 +94,6 @@ const Product = () => {
                             categoryId: Number(data.get("category")),
                         }),
                     })
-                        .then((response) => response.json())
                         .then((data) => {
                             console.log(data);
                             fetchProducts();
