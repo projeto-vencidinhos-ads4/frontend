@@ -6,8 +6,11 @@ import './index.css'
 import { client } from '../../../utils/client-mock-data'
 import Button from '../../../components/ui/button/button'
 import ButtonOutlined from '../../../components/ui/button-outlined/button-outlined'
+import { useRef } from 'react';
 
 const Product = () => {
+    
+    const rowRef = useRef(null);
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
 
@@ -59,6 +62,15 @@ const Product = () => {
         .catch((error) => {
             console.error("Network Error:", error);
         });
+    }
+
+    function updateProduct(){
+        if (rowRef.current) {
+            const cells = rowRef.current.children;
+            const productName = cells[0];
+            productName.innerText = "alooo"
+
+            console.log(productName)}
     }
     
 
@@ -139,13 +151,13 @@ const Product = () => {
                         </thead>
                         <tbody>
                             {products.length > 0 ? products.map((product) => (
-                                <tr key={product.id}>
+                                <tr ref={rowRef} key={product.id}>
                                     <td>{product.name}</td>
                                     <td>{product.quantity}</td>
                                     <td>{product.price}</td>
                                     <td>{product.categoryName}</td>
                                     <td style={{ display: "flex", gap: "8px" }}>
-                                        <Button>Editar</Button>
+                                        <Button onClick={() => updateProduct()} >Editar</Button>
                                         <ButtonOutlined 
                                             type="button"
                                             color="error"
