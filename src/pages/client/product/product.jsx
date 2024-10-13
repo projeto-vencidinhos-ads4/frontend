@@ -10,13 +10,14 @@ import ButtonOutlined from '../../../components/ui/button-outlined/button-outlin
 const Product = () => {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
-    const [editingProductId, setEditingProductId] = useState(null); // Estado para armazenar o produto em edição
+    const [editingProductId, setEditingProductId] = useState(null); 
     const [editedName, setEditedName] = useState("");
     const [editedPrice, setEditedPrice] = useState("");
-    const [editedQuantity, setEditedQuantity] = useState(""); // Estado para armazenar o valor editado do nome do produto
+    const [editedQuantity, setEditedQuantity] = useState("");
+    const [editedCategory, setEditedCategory] = useState("");
     const { id } = client;
 
-    // Fetch de categorias
+
     function fetchCategories() {
         fetch(`http://localhost:8085/categories/${id}`)
             .then((response) => response.json())
@@ -28,7 +29,7 @@ const Product = () => {
             });
     }
 
-    // Fetch de produtos
+    
     function fetchProducts() {
         fetch(`http://localhost:8085/products/${id}`)
             .then((response) => response.json())
@@ -40,7 +41,7 @@ const Product = () => {
             });
     }
 
-    // Função para deletar produtos
+    // Function for handling the deletion of Products
     function deleteProduct(productId) {
         fetch(`http://localhost:8085/products/${productId}/delete`, {
             method: "DELETE",
@@ -60,19 +61,23 @@ const Product = () => {
         });
     }
 
-    // Função para editar um produto
-    function editProduct(productId, name,quantity,price) {
-        setEditingProductId(productId); // Ativa o modo de edição para o produto selecionado
+    
+    function editProduct(productId, name,quantity,price,category) {
+        setEditingProductId(productId); 
         setEditedName(name);
         setEditedQuantity(quantity); 
-        setEditedPrice(price); // Inicializa o campo de edição com o nome atual do produto
+        setEditedPrice(price)
+        setEditedCategory(category); 
     }
 
-    // Função para salvar as mudanças do produto
     function saveProduct(productId,productName,productPrice,productQuantity,productClientId,productCategoryId) {
-        // Aqui você pode fazer um fetch para atualizar o produto no backend com o novo nome, por exemplo
-        console.log(productId,productName,productPrice.toFixed(2),productQuantity,productClientId,productCategoryId)
-        console.log(console.log(parseFloat(5)))
+        var categoryId = editedCategory;
+        if (categoryId == null){
+            categoryId = productCategoryId;
+            console.log(categoryId)
+            
+        }; 
+        console.log(categoryId)
         fetch(`http://localhost:8085/products/${productId}/change`, {
             method: "PUT",
             headers: {
@@ -83,7 +88,7 @@ const Product = () => {
                 price: (parseInt(editedPrice)).toFixed(2),
                 quantity: editedQuantity,
                 clientId: productClientId,
-                categoryId: productCategoryId,
+                categoryId: parseInt(categoryId),
             }),
             
         })
@@ -94,7 +99,7 @@ const Product = () => {
             console.error("Error:", error);
         });      
         console.log("Salvando produto com ID:", productId, "e nome:", editedName);
-        setEditingProductId(null); // Sai do modo de edição
+        setEditingProductId(null); 
     }
 
     useEffect(() => {
@@ -198,13 +203,27 @@ const Product = () => {
                                         ) : (
                                             product.price
                                         )}
-                                    </td>                                                                        
-                                    <td>{product.categoryName}</td>
+                                    </td>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                    <FormGroup>
+                                    <select className='select-option' defaultValue={product.categoryId} name="category" id="category" value={editedCategory} onChange={(e) => setEditedCategory(e.target.value)}>
+                                        {categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                    ))}
+                                    </select>
+                                    </FormGroup>
+                                        ) : (
+                                            product.categoryName
+                                        )}
+                                    </td>                                                                                                              
                                     <td style={{ display: "flex", gap: "8px" }}>
                                         {editingProductId === product.id ? (
                                             <Button onClick={() => saveProduct(product.id,product.name,product.price,product.quantity,product.clientId,product.categoryId)}>Salvar</Button>
                                         ) : (
-                                            <Button onClick={() => editProduct(product.id, product.name,product.quantity,product.price)}>Editar</Button>
+                                            <Button onClick={() => editProduct(product.id, product.name,product.quantity,product.price,product.category)}>Editar</Button>
                                         )}
                                         <ButtonOutlined 
                                             type="button"
