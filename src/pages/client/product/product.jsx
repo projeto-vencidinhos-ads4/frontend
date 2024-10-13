@@ -41,7 +41,7 @@ const Product = () => {
             });
     }
 
-    // Function for handling the deletion of Products
+    
     function deleteProduct(productId) {
         fetch(`http://localhost:8085/products/${productId}/delete`, {
             method: "DELETE",
@@ -74,10 +74,7 @@ const Product = () => {
         var categoryId = editedCategory;
         if (categoryId == null){
             categoryId = productCategoryId;
-            console.log(categoryId)
-            
         }; 
-        console.log(categoryId)
         fetch(`http://localhost:8085/products/${productId}/change`, {
             method: "PUT",
             headers: {
@@ -98,7 +95,6 @@ const Product = () => {
         .catch((error) => {
             console.error("Error:", error);
         });      
-        console.log("Salvando produto com ID:", productId, "e nome:", editedName);
         setEditingProductId(null); 
     }
 
