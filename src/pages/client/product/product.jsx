@@ -1,23 +1,27 @@
-import { useEffect, useState } from 'react'
-import FormGroup from '../../../components/form-group/form-group'
-import Input from '../../../components/ui/input/input'
-import ClientLayout from '../../layouts/_clientLayout'
-import './index.css'
-import { client } from '../../../utils/client-mock-data'
-import Button from '../../../components/ui/button/button'
-import ButtonOutlined from '../../../components/ui/button-outlined/button-outlined'
+import { useEffect, useState } from 'react';
+import FormGroup from '../../../components/form-group/form-group';
+import Input from '../../../components/ui/input/input';
+import ClientLayout from '../../layouts/_clientLayout';
+import './index.css';
+import { client } from '../../../utils/client-mock-data';
+import Button from '../../../components/ui/button/button';
+import ButtonOutlined from '../../../components/ui/button-outlined/button-outlined';
 
 const Product = () => {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
+    const [editingProductId, setEditingProductId] = useState(null); 
+    const [editedName, setEditedName] = useState("");
+    const [editedPrice, setEditedPrice] = useState("");
+    const [editedQuantity, setEditedQuantity] = useState("");
+    const [editedCategory, setEditedCategory] = useState("");
+    const { id } = client;
 
-    const { id } = client
 
     function fetchCategories() {
         fetch(`http://localhost:8085/categories/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setCategories(data);
             })
             .catch((error) => {
@@ -25,11 +29,11 @@ const Product = () => {
             });
     }
 
+    
     function fetchProducts() {
         fetch(`http://localhost:8085/products/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setProducts(data);
             })
             .catch((error) => {
@@ -37,10 +41,8 @@ const Product = () => {
             });
     }
 
-    // Function for handling the deletion of Products
+    
     function deleteProduct(productId) {
-        console.log(`Attempting to delete Prouct with ID: ${productId}`);
-        
         fetch(`http://localhost:8085/products/${productId}/delete`, {
             method: "DELETE",
             headers: {
@@ -48,27 +50,57 @@ const Product = () => {
             },
         })
         .then((response) => {
-            console.log("Response Status:", response.status);
             if (response.ok) {
-                console.log(`The Product with id: ${productId} was deleted successfully!`);
                 fetchProducts();
             } else {
-                console.error("Failed to delete Product!");
+                console.error("Erro ao deletar o produto");
             }
         })
         .catch((error) => {
-            console.error("Network Error:", error);
+            console.error("Erro:", error);
         });
     }
+
     
+    function editProduct(productId, name,quantity,price,category) {
+        setEditingProductId(productId); 
+        setEditedName(name);
+        setEditedQuantity(quantity); 
+        setEditedPrice(price)
+        setEditedCategory(category); 
+    }
+
+    function saveProduct(productId,productName,productPrice,productQuantity,productClientId,productCategoryId) {
+        var categoryId = editedCategory;
+        if (categoryId == null){
+            categoryId = productCategoryId;
+        }; 
+        fetch(`http://localhost:8085/products/${productId}/change`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: editedName,
+                price: (parseInt(editedPrice)).toFixed(2),
+                quantity: editedQuantity,
+                clientId: productClientId,
+                categoryId: parseInt(categoryId),
+            }),
+            
+        })
+        .then((data) => {
+            fetchProducts();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });      
+        setEditingProductId(null); 
+    }
 
     useEffect(() => {
         fetchCategories();
-    }, []);
-
-
-    useEffect(() => {
-        fetchProducts()
+        fetchProducts();
     }, []);
 
     return (
@@ -94,13 +126,12 @@ const Product = () => {
                             categoryId: Number(data.get("category")),
                         }),
                     })
-                        .then((data) => {
-                            console.log(data);
-                            fetchProducts();
-                        })
-                        .catch((error) => {
-                            console.error("Error:", error);
-                        });
+                    .then(() => {
+                        fetchProducts();
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
                 }}>
                     <FormGroup>
                         <label className='label'>Nome</label>
@@ -126,7 +157,7 @@ const Product = () => {
                     <Button type="submit" className='button'>Salvar</Button>
                 </form>
                 <div className="list-categories">
-                    <h1>lista de propdutos</h1>
+                    <h1>lista de produtos</h1>
                     <table>
                         <thead>
                             <tr>
@@ -140,12 +171,56 @@ const Product = () => {
                         <tbody>
                             {products.length > 0 ? products.map((product) => (
                                 <tr key={product.id}>
-                                    <td>{product.name}</td>
-                                    <td>{product.quantity}</td>
-                                    <td>{product.price}</td>
-                                    <td>{product.categoryName}</td>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                            <Input defaultValue="" placeholder={editedName} id="edit" name="edit" onChange={(e) => setEditedName(e.target.value)}/>
+                                        ) : (
+                                            product.name
+                                        )}
+                                    </td>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                            <Input 
+                                                type="text" 
+                                                value={editedQuantity} 
+                                                onChange={(e) => setEditedQuantity(e.target.value)}
+                                            />
+                                        ) : (
+                                            product.quantity
+                                        )}
+                                    </td>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                            <Input 
+                                                type="text" 
+                                                value={editedPrice} 
+                                                onChange={(e) => setEditedPrice(e.target.value)}
+                                            />
+                                        ) : (
+                                            product.price
+                                        )}
+                                    </td>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                    <FormGroup>
+                                    <select className='select-option' defaultValue={product.categoryId} name="category" id="category" value={editedCategory} onChange={(e) => setEditedCategory(e.target.value)}>
+                                        {categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                    ))}
+                                    </select>
+                                    </FormGroup>
+                                        ) : (
+                                            product.categoryName
+                                        )}
+                                    </td>                                                                                                              
                                     <td style={{ display: "flex", gap: "8px" }}>
-                                        <Button>Editar</Button>
+                                        {editingProductId === product.id ? (
+                                            <Button onClick={() => saveProduct(product.id,product.name,product.price,product.quantity,product.clientId,product.categoryId)}>Salvar</Button>
+                                        ) : (
+                                            <Button onClick={() => editProduct(product.id, product.name,product.quantity,product.price,product.category)}>Editar</Button>
+                                        )}
                                         <ButtonOutlined 
                                             type="button"
                                             color="error"
@@ -155,7 +230,7 @@ const Product = () => {
                                         </ButtonOutlined>
                                     </td>
                                 </tr>
-                            )) : <tr><td colSpan={3}>Nenhum produto cadastrado</td></tr>}
+                            )) : <tr><td colSpan={5}>Nenhum produto cadastrado</td></tr>}
                         </tbody>
                     </table>
                 </div>
@@ -164,4 +239,4 @@ const Product = () => {
     )
 }
 
-export default Product
+export default Product;
