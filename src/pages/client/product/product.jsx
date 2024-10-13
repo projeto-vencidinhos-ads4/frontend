@@ -172,18 +172,14 @@ const Product = () => {
                                 <tr key={product.id}>
                                     <td>
                                         {editingProductId === product.id ? (
-                                            <input 
-                                                type="text" 
-                                                value={editedName} 
-                                                onChange={(e) => setEditedName(e.target.value)}
-                                            />
+                                            <Input defaultValue="" placeholder={editedName} id="edit" name="edit" onChange={(e) => setEditedName(e.target.value)}/>
                                         ) : (
                                             product.name
                                         )}
                                     </td>
                                     <td>
                                         {editingProductId === product.id ? (
-                                            <input 
+                                            <Input 
                                                 type="text" 
                                                 value={editedQuantity} 
                                                 onChange={(e) => setEditedQuantity(e.target.value)}
@@ -194,7 +190,7 @@ const Product = () => {
                                     </td>
                                     <td>
                                         {editingProductId === product.id ? (
-                                            <input 
+                                            <Input 
                                                 type="text" 
                                                 value={editedPrice} 
                                                 onChange={(e) => setEditedPrice(e.target.value)}
