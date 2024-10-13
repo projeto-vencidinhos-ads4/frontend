@@ -1,26 +1,24 @@
-import { useEffect, useState } from 'react'
-import FormGroup from '../../../components/form-group/form-group'
-import Input from '../../../components/ui/input/input'
-import ClientLayout from '../../layouts/_clientLayout'
-import './index.css'
-import { client } from '../../../utils/client-mock-data'
-import Button from '../../../components/ui/button/button'
-import ButtonOutlined from '../../../components/ui/button-outlined/button-outlined'
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
+import FormGroup from '../../../components/form-group/form-group';
+import Input from '../../../components/ui/input/input';
+import ClientLayout from '../../layouts/_clientLayout';
+import './index.css';
+import { client } from '../../../utils/client-mock-data';
+import Button from '../../../components/ui/button/button';
+import ButtonOutlined from '../../../components/ui/button-outlined/button-outlined';
 
 const Product = () => {
-    
-    const rowRef = useRef(null);
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
+    const [editingProductId, setEditingProductId] = useState(null); // Estado para armazenar o produto em edição
+    const [editedName, setEditedName] = useState(""); // Estado para armazenar o valor editado do nome do produto
+    const { id } = client;
 
-    const { id } = client
-
+    // Fetch de categorias
     function fetchCategories() {
         fetch(`http://localhost:8085/categories/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setCategories(data);
             })
             .catch((error) => {
@@ -28,11 +26,11 @@ const Product = () => {
             });
     }
 
+    // Fetch de produtos
     function fetchProducts() {
         fetch(`http://localhost:8085/products/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setProducts(data);
             })
             .catch((error) => {
@@ -40,10 +38,8 @@ const Product = () => {
             });
     }
 
-    // Function for handling the deletion of Products
+    // Função para deletar produtos
     function deleteProduct(productId) {
-        console.log(`Attempting to delete Prouct with ID: ${productId}`);
-        
         fetch(`http://localhost:8085/products/${productId}/delete`, {
             method: "DELETE",
             headers: {
@@ -51,36 +47,55 @@ const Product = () => {
             },
         })
         .then((response) => {
-            console.log("Response Status:", response.status);
             if (response.ok) {
-                console.log(`The Product with id: ${productId} was deleted successfully!`);
                 fetchProducts();
             } else {
-                console.error("Failed to delete Product!");
+                console.error("Erro ao deletar o produto");
             }
         })
         .catch((error) => {
-            console.error("Network Error:", error);
+            console.error("Erro:", error);
         });
     }
 
-    function updateProduct(){
-        if (rowRef.current) {
-            const cells = rowRef.current.children;
-            const productName = cells[0];
-            productName.innerText = "alooo"
-
-            console.log(productName)}
+    // Função para editar um produto
+    function editProduct(productId, name) {
+        setEditingProductId(productId); // Ativa o modo de edição para o produto selecionado
+        setEditedName(name); // Inicializa o campo de edição com o nome atual do produto
     }
-    
+
+    // Função para salvar as mudanças do produto
+    function saveProduct(productId,productName,productPrice,productQuantity,productClientId,productCategoryId) {
+        // Aqui você pode fazer um fetch para atualizar o produto no backend com o novo nome, por exemplo
+        console.log(productId,productName,productPrice.toFixed(2),productQuantity,productClientId,productCategoryId)
+        console.log(console.log(parseFloat(5)))
+        fetch(`http://localhost:8085/products/${productId}/change`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: editedName,
+                price: productPrice.toFixed(2),
+                quantity: productQuantity,
+                clientId: productClientId,
+                categoryId: productCategoryId,
+            }),
+            
+        })
+        .then((data) => {
+            fetchProducts();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });      
+        console.log("Salvando produto com ID:", productId, "e nome:", editedName);
+        setEditingProductId(null); // Sai do modo de edição
+    }
 
     useEffect(() => {
         fetchCategories();
-    }, []);
-
-
-    useEffect(() => {
-        fetchProducts()
+        fetchProducts();
     }, []);
 
     return (
@@ -106,13 +121,12 @@ const Product = () => {
                             categoryId: Number(data.get("category")),
                         }),
                     })
-                        .then((data) => {
-                            console.log(data);
-                            fetchProducts();
-                        })
-                        .catch((error) => {
-                            console.error("Error:", error);
-                        });
+                    .then(() => {
+                        fetchProducts();
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
                 }}>
                     <FormGroup>
                         <label className='label'>Nome</label>
@@ -138,7 +152,7 @@ const Product = () => {
                     <Button type="submit" className='button'>Salvar</Button>
                 </form>
                 <div className="list-categories">
-                    <h1>lista de propdutos</h1>
+                    <h1>lista de produtos</h1>
                     <table>
                         <thead>
                             <tr>
@@ -151,13 +165,27 @@ const Product = () => {
                         </thead>
                         <tbody>
                             {products.length > 0 ? products.map((product) => (
-                                <tr ref={rowRef} key={product.id}>
-                                    <td>{product.name}</td>
+                                <tr key={product.id}>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                            <input 
+                                                type="text" 
+                                                value={editedName} 
+                                                onChange={(e) => setEditedName(e.target.value)}
+                                            />
+                                        ) : (
+                                            product.name
+                                        )}
+                                    </td>
                                     <td>{product.quantity}</td>
                                     <td>{product.price}</td>
                                     <td>{product.categoryName}</td>
                                     <td style={{ display: "flex", gap: "8px" }}>
-                                        <Button onClick={() => updateProduct()} >Editar</Button>
+                                        {editingProductId === product.id ? (
+                                            <Button onClick={() => saveProduct(product.id,product.name,product.price,product.quantity,product.clientId,product.categoryId)}>Salvar</Button>
+                                        ) : (
+                                            <Button onClick={() => editProduct(product.id, product.name)}>Editar</Button>
+                                        )}
                                         <ButtonOutlined 
                                             type="button"
                                             color="error"
@@ -167,7 +195,7 @@ const Product = () => {
                                         </ButtonOutlined>
                                     </td>
                                 </tr>
-                            )) : <tr><td colSpan={3}>Nenhum produto cadastrado</td></tr>}
+                            )) : <tr><td colSpan={5}>Nenhum produto cadastrado</td></tr>}
                         </tbody>
                     </table>
                 </div>
@@ -176,4 +204,4 @@ const Product = () => {
     )
 }
 
-export default Product
+export default Product;
