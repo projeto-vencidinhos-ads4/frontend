@@ -11,7 +11,9 @@ const Product = () => {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [editingProductId, setEditingProductId] = useState(null); // Estado para armazenar o produto em edição
-    const [editedName, setEditedName] = useState(""); // Estado para armazenar o valor editado do nome do produto
+    const [editedName, setEditedName] = useState("");
+    const [editedPrice, setEditedPrice] = useState("");
+    const [editedQuantity, setEditedQuantity] = useState(""); // Estado para armazenar o valor editado do nome do produto
     const { id } = client;
 
     // Fetch de categorias
@@ -59,9 +61,11 @@ const Product = () => {
     }
 
     // Função para editar um produto
-    function editProduct(productId, name) {
+    function editProduct(productId, name,quantity,price) {
         setEditingProductId(productId); // Ativa o modo de edição para o produto selecionado
-        setEditedName(name); // Inicializa o campo de edição com o nome atual do produto
+        setEditedName(name);
+        setEditedQuantity(quantity); 
+        setEditedPrice(price); // Inicializa o campo de edição com o nome atual do produto
     }
 
     // Função para salvar as mudanças do produto
@@ -76,8 +80,8 @@ const Product = () => {
             },
             body: JSON.stringify({
                 name: editedName,
-                price: productPrice.toFixed(2),
-                quantity: productQuantity,
+                price: (parseInt(editedPrice)).toFixed(2),
+                quantity: editedQuantity,
                 clientId: productClientId,
                 categoryId: productCategoryId,
             }),
@@ -177,14 +181,34 @@ const Product = () => {
                                             product.name
                                         )}
                                     </td>
-                                    <td>{product.quantity}</td>
-                                    <td>{product.price}</td>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                            <input 
+                                                type="text" 
+                                                value={editedQuantity} 
+                                                onChange={(e) => setEditedQuantity(e.target.value)}
+                                            />
+                                        ) : (
+                                            product.quantity
+                                        )}
+                                    </td>
+                                    <td>
+                                        {editingProductId === product.id ? (
+                                            <input 
+                                                type="text" 
+                                                value={editedPrice} 
+                                                onChange={(e) => setEditedPrice(e.target.value)}
+                                            />
+                                        ) : (
+                                            product.price
+                                        )}
+                                    </td>                                                                        
                                     <td>{product.categoryName}</td>
                                     <td style={{ display: "flex", gap: "8px" }}>
                                         {editingProductId === product.id ? (
                                             <Button onClick={() => saveProduct(product.id,product.name,product.price,product.quantity,product.clientId,product.categoryId)}>Salvar</Button>
                                         ) : (
-                                            <Button onClick={() => editProduct(product.id, product.name)}>Editar</Button>
+                                            <Button onClick={() => editProduct(product.id, product.name,product.quantity,product.price)}>Editar</Button>
                                         )}
                                         <ButtonOutlined 
                                             type="button"
