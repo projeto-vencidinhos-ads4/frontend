@@ -1,10 +1,11 @@
-import React from 'react'
-import './style.css'
+import "./style.css";
 
-const ButtonOutlined = ({ children, color = "", onClick}) => {
+const ButtonOutlined = ({ children, color = "", onClick }) => {
     return (
-        <button className={`btn-outlined ${color} `} onClick={onClick}>{children}</button>
-    )
-}
+        <button className={`btn-outlined ${color}`} onClick={onClick}>
+            {children}
+        </button>
+    );
+};
 
-export default ButtonOutlined
+export default ButtonOutlined;

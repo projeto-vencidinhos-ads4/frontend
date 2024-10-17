@@ -1,13 +1,7 @@
-import React from 'react'
-
-import "./index.css"
+import "./index.css";
 
 const FormGroup = ({ children }) => {
-    return (
-        <div className="form-group">
-            {children}
-        </div>
-    )
-}
+  return <div className="form-group">{children}</div>;
+};
 
-export default FormGroup
+export default FormGroup;

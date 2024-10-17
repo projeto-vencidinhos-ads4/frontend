@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import RouterConfig from './routes/routes'
+import "./App.css";
+import RouterConfig from "./routes/routes";
 
 function App() {
-
-    return (
-        <RouterConfig />
-    )
+    return <RouterConfig />;
 }
 
-export default App
+export default App;

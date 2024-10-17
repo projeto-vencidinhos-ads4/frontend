@@ -1,11 +1,11 @@
-import React from 'react'
-import './style.css'
+import "./style.css";
 
-const Button = ({ children,onClick }) => {
+const Button = ({ children, onClick }) => {
     return (
-        <button className={"btn-filled"} onClick={onClick}>{children}</button>
+        <button className={"btn-filled"} onClick={onClick}>
+            {children}
+        </button>
+    );
+};
 
-    )
-}
-
-export default Button
+export default Button;

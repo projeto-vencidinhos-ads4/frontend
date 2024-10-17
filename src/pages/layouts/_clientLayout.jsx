@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom'
-import Header from '../../components/ui/header/header'
+import { NavLink } from "react-router-dom";
+import Header from "../../components/ui/header/header";
 
 const ClientLayout = ({ children }) => {
     return (
@@ -18,7 +18,7 @@ const ClientLayout = ({ children }) => {
                 {children}
             </div>
         </>
-    )
-}
+    );
+};
 
-export default ClientLayout
+export default ClientLayout;

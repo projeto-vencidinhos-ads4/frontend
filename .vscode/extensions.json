@@ -10,13 +10,12 @@
         "naumovs.color-highlight",
         "editorconfig.editorconfig",
         "dsznajder.es7-react-js-snippets",
-        "dbaeumer.vscode-eslint",
         "eamodio.gitlens",
         "ecmel.vscode-html-css",
         "visualstudioexptteam.vscodeintellicode",
         "visualstudioexptteam.intellicode-api-usage-examples",
         "ritwickdey.liveserver",
-        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [

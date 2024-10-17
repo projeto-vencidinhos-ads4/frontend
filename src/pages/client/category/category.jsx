@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ButtonOutlined from "../../../components/ui/button-outlined/button-outlined";
 import Button from "../../../components/ui/button/button";
 import Input from "../../../components/ui/input/input";
@@ -11,9 +11,9 @@ import ClientLayout from "../../layouts/_clientLayout";
 const Category = () => {
     const [categories, setCategories] = useState([]);
 
-    const { id } = client
+    const { id } = client;
 
-    function fetchCategories() {
+    const fetchCategories = useCallback(() => {
         fetch(`http://localhost:8085/categories/${id}`)
             .then((response) => response.json())
             .then((data) => {
@@ -22,21 +22,20 @@ const Category = () => {
             })
             .catch((error) => {
                 console.error("Error:", error);
-                setCategories(listCategories)
+                setCategories(listCategories);
             });
-    }
+    }, [id]);
 
     useEffect(() => {
         fetchCategories();
-    }, []);
-
+    }, [fetchCategories]);
 
     function submitCategory(e) {
         e.preventDefault();
         console.log(e.target);
         let data = new FormData(e.target);
 
-        if (!data.get("category")) return
+        if (!data.get("category")) return;
 
         fetch("http://localhost:8085/categories/create", {
             method: "POST",
@@ -61,28 +60,32 @@ const Category = () => {
     // Function for handling the deletion of Categories
     function deleteCategory(categoryId) {
         console.log(`Attempting to delete Category with ID: ${categoryId}`);
-        
+
         fetch(`http://localhost:8085/categories/delete/${categoryId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
         })
-        .then((response) => {
-            console.log("Response Status:", response.status);
-            if (response.ok) {
-                console.log(`The Category with id: ${categoryId} deleted successfully!`);
-                fetchCategories();
-            } else {
-                console.error("Failed to delete Category!");
-                alert(`Failed to delete Category!\n\n` +
-                    `It seems a Product is dependent on this Category.\n` +
-                    `To delete the Category with id: ${categoryId}, the dependent Product(s) needs to be deleted first.`)
-            }
-        })
-        .catch((error) => {
-            console.error("Network Error:", error);
-        });
+            .then((response) => {
+                console.log("Response Status:", response.status);
+                if (response.ok) {
+                    console.log(
+                        `The Category with id: ${categoryId} deleted successfully!`
+                    );
+                    fetchCategories();
+                } else {
+                    console.error("Failed to delete Category!");
+                    alert(
+                        `Failed to delete Category!\n\n` +
+                            `It seems a Product is dependent on this Category.\n` +
+                            `To delete the Category with id: ${categoryId}, the dependent Product(s) needs to be deleted first.`
+                    );
+                }
+            })
+            .catch((error) => {
+                console.error("Network Error:", error);
+            });
     }
 
     return (
@@ -125,7 +128,9 @@ const Category = () => {
                                             <ButtonOutlined
                                                 type="button"
                                                 color="error"
-                                                onClick={() => deleteCategory(category.id)}
+                                                onClick={() =>
+                                                    deleteCategory(category.id)
+                                                }
                                             >
                                                 Deletar
                                             </ButtonOutlined>
